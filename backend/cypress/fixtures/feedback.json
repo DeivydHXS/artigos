@@ -1,0 +1,36 @@
+{
+  "messages": {
+    "success_user_message": "Usuário criado com sucesso.",
+    "invalid_body_message": "Campos obrigatórios inválidos.",
+    "login_with_success": "Login realizado com sucesso.",
+    "delete_user": "Usuário deletado com sucesso."
+  },
+ 
+  "errors": {
+
+    "invalid_credentials": "Credenciais inválidas.",
+    "name": [
+      "O campo nome é obrigatório.",
+      "O campo nome deve ser válido."
+    ],
+    
+    "email": [
+      "O campo email é obrigatório.",
+      "O campo email deve ser válido.",
+      "O email informado já está em uso."
+    ],
+    "password": [
+      "O campo senha é obrigatório.",
+      "O campo senha deve ter pelo menos 8 caracteres.",
+      "O campo senha deve conter pelo menos uma letra maiúscula e uma minúscula.",
+      "O campo senha deve conter pelo menos uma letra.",
+      "O campo senha deve conter pelo menos um símbolo."
+    ],
+
+    "birthday": [
+      "O campo birthday deve ser uma data válida."
+    ],
+
+    "login": "Email e/ou senha inválido(s)."
+  }
+}
