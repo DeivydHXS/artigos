@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
 
   const handleDelete = useCallback(async () => {
     await del('/user');
-    navigate('/');
+    navigate('/feed');
   }, []);
 
   const getUser = useCallback(() => {

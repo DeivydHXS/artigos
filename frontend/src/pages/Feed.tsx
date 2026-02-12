@@ -5,7 +5,7 @@ import { ArticleList } from '../components/ArticleList';
 import { Loading } from '../components/Loading';
 import { useApi } from '../hooks/useApi';
 
-const Home: React.FC = () => {
+const Feed: React.FC = () => {
   const [feed, setFeed] = useState<ArticleInterface[]>([])
   const [load, setLoad] = useState<boolean>(false);
   const { get } = useApi();
@@ -41,4 +41,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Feed;

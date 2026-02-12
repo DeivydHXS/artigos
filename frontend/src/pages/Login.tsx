@@ -12,7 +12,7 @@ const Login: React.FC = () => {
     if (response.isStatusValid) {
       if (response.data) {
         doLogin(response.data.user, response.data.token);
-        navigate('/');
+        navigate('/feed');
       }
     }
   }, []);

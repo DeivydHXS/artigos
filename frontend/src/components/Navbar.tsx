@@ -41,17 +41,17 @@ const Navbar: React.FC = () => {
     <>
       <nav className='w-screen bg-white flex items-center justify-center gap-2 py-4 border-b-1 border-b-neutral fixed z-1'>
         <div className='w-[80vw] flex items-center justify-between gap-4 px-4'>
-          <NavLink data-cy={`link-home`} to="/" className="text-lg font-bold">Commit.dev</NavLink >
+          <NavLink data-cy={`link-home`} to="/feed" className="text-lg font-bold">Commit.dev</NavLink >
           <div data-cy={`button-open-navbar-modal`} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
             <div>
-              <NavLink to='/profile' className='w-full h-full'>
                 <UserImageName user={user} onNavbar={true} />
-              </NavLink>
+              {/* <NavLink to='/profile' className='w-full h-full'>
+              </NavLink> */}
             </div>
             {isOpen &&
               <div className='absolute' onBlur={onMouseLeave}>
                 <div className='w-[15vw] flex flex-col bg-white rounded-md shadow-2xl'>
-                  <NavLink data-cy={`link-modal-home`} to="/" className={(props) => {
+                  <NavLink data-cy={`link-modal-home`} to="/feed" className={(props) => {
                     return `${props.isActive ? 'bg-primary text-white' : 'text-black'} flex items-center gap-1 hover:bg-secondary hover:text-white p-2 rounded-t-md`
                   }}>
                     <div>

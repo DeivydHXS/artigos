@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import type { ArticleInterface } from "../interfaces/ArticleInterface";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import CommentariesItem from "../components/CommentariesItem";
-import PageCard from "../components/PageCard";
 import type { CommentaryInterface } from "../interfaces/CommentaryInterface";
 import { useApi } from "../hooks/useApi";
 import { TfiDownload } from "react-icons/tfi";

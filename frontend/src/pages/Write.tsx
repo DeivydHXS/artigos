@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
 import PageCard from '../components/PageCard';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
 import type { CategoryInterface } from '../interfaces/CategoryInterface';
 import type { ArticleInterface } from '../interfaces/ArticleInterface';
 import { useApi } from '../hooks/useApi';
@@ -9,9 +8,10 @@ import { Loading } from '../components/Loading';
 import { useLoadContext } from '../hooks/useContext';
 import { AlertContext } from '../contexts/AlertContext';
 import { TfiTrash } from 'react-icons/tfi';
-import JoditEditor from 'jodit-react';
 import { PiPlus } from 'react-icons/pi';
 import { CgClose } from 'react-icons/cg';
+import { lazy, Suspense } from "react";
+const RichTextEditor = lazy(() => import("../components/RichTextEditor"));
 
 interface FormErrors {
   title?: string[],
@@ -25,7 +25,6 @@ const Write: React.FC = () => {
   const { get, post } = useApi();
   const { addAlert } = useLoadContext(AlertContext);
   const navigate = useNavigate();
-  const editor = useRef<any>(null);
   const [load, setLoad] = useState<boolean>(true);
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -108,19 +107,6 @@ const Write: React.FC = () => {
     setLoad(false);
   }, [files, selectedCategories]);
 
-  const handleSupportFileDelete = useCallback(async (id: number) => {
-    var result = await post<ArticleInterface | FormErrors>(`/articles/delete-support-file/${id}`);
-    if (result.isStatusValid) {
-      addAlert({
-        type: 'success',
-        message: result.message
-      });
-      getArticle();
-      setLoad(false);
-      return
-    }
-  }, []);
-
   const getCategories = useCallback(async () => {
     const result = await get<CategoryInterface[]>('/categories');
     setCategories(result.data || []);
@@ -133,11 +119,18 @@ const Write: React.FC = () => {
     setSelectedCategories(result?.data?.article?.categories || []);
   }, []);
 
-  useEffect(() => {
-    if (editor.current && content) {
-      editor.current.value = content;
+  const handleSupportFileDelete = useCallback(async (id: number) => {
+    var result = await post<ArticleInterface | FormErrors>(`/articles/delete-support-file/${id}`);
+    if (result.isStatusValid) {
+      addAlert({
+        type: 'success',
+        message: result.message
+      });
+      getArticle();
+      setLoad(false);
+      return
     }
-  }, [content]);
+  }, [addAlert, getArticle]);
 
   useEffect(() => {
     if (articleId) {
@@ -227,14 +220,13 @@ const Write: React.FC = () => {
             <div className='w-full'>
               <label htmlFor="body">Conteúdo</label>
               <div className={`border rounded-md ${errors.body ? 'border-error' : 'border-neutral-400'}`}>
-                <JoditEditor
-                  name='body'
-                  ref={editor}
-                  value={content}
-                  config={config}
-                  tabIndex={1}
-                  onBlur={newContent => setContent(newContent)}
-                />
+                <Suspense fallback={<div>Carregando editor...</div>}>
+                  <RichTextEditor
+                    value={content}
+                    config={config}
+                    onChange={(value: string) => setContent(value)}
+                  />
+                </Suspense>
               </div>
               <small className='text-error text-wrap w-full'>{errors.body}</small>
             </div>

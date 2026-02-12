@@ -128,7 +128,7 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
     return (
         <div className='rounded-md border-b-1 border-b-neutral bg-white flex flex-col'>
             <div className="w-full h-[180px] rounded-t-md overflow-clip">
-                <NavLink data-cy={`link-image-article-${article.id}`} to={`/article/${article.id}`} className="text-2xl font-bold text-neutral-800">
+                <NavLink data-cy={`link-image-article-${article.id}`} to={`/articles/${article.id}`} className="text-2xl font-bold text-neutral-800">
                     <img className="h-full w-full" src={article.thumbnail_url ?
                         article.thumbnail_url :
                         "https://fillthis.io/i/600x400?text=Sem+imagem&font=roboto"} />
@@ -138,7 +138,7 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
             <div className="p-8 h-full flex flex-col justify-between">
                 <div className="flex flex-col items-baseline justify-between mb-2 gap-2">
                     <div className="flex justify-between items-baseline gap-2 w-full">
-                        <NavLink to={`/article/${article.id}`} className="text-xl font-bold text-neutral-800 whitespace-pre-wrap" data-cy={`link-title-article-${article.id}`}>
+                        <NavLink to={`/articles/${article.id}`} className="text-xl font-bold text-neutral-800 whitespace-pre-wrap" data-cy={`link-title-article-${article.id}`}>
                             {article.title.slice(0, 18) + (article.title.length > 18 ? '...' : '')}
                         </NavLink>
                         <ButtonIcon dataCy={`button-favorite-article-${article.id}`} icon={article.is_favorite ? <RxBookmarkFilled {...iconProps} color="oklch(28.3% 0.141 291.089)" /> : <RxBookmark {...iconProps} color="oklch(38% 0.189 293.745)" />}
