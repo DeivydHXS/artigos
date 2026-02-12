@@ -2,7 +2,7 @@
 # Commit.dev
 
 Esse é um projeto de estudo dos estagiários de desenvolvimento da It Universe.
-A idéia é desenvolver uma rede social de textos longos voltada para a área de TI.
+A idéia é desenvolver uma rede social de textos longos (artigos*) voltada para a área de TI.
 
 
 
@@ -21,14 +21,13 @@ Guia de Instalação
 
 ### Clone o projeto
 ```bash
-    git clone 'https://github.com/IT-Universe-Tecnologia/artigos_estg.git'
-    cd artigos_estg
+    git clone 'https://github.com/DeivydHXS/artigos.git'
+    cd artigos
 ```
 
-### Instale as dependencias do projeto
+Para rodar o projeto rode 
+docker-compose up --build
 
-Copie o arquivo .env.example e renomeie essa copia para .env, em seguida rode o comando abaixo na pasta root do projeto.
-
-```bash
-    ./install.sh
-```
+depois no exec do docker backend
+php artisan migrate
+php artisan db:seed

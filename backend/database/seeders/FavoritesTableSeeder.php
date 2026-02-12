@@ -16,8 +16,8 @@ class FavoritesTableSeeder extends Seeder
     {
         Favorites::truncate();
 
-        $users = User::orderBy('RANDOM()')->limit(15)->get();
-        $articles = Article::orderBy('RANDOM()')->limit(15)->get();
+        $users = User::inRandomOrder()->limit(15)->get();
+        $articles = Article::inRandomOrder()->limit(15)->get();
 
         foreach ($users as $user) {
             Favorites::create([
