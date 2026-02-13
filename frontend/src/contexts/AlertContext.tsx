@@ -1,47 +1,66 @@
-import React, { createContext, useState, type ReactNode } from 'react';
+import React, { createContext, useState, type ReactNode } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Alert {
-    message: string;
-    type: 'success' | 'error';
-    index?: number;
+  message: string;
+  type: "success" | "error";
+  index?: number;
 }
-
 
 interface AlertContextData {
-    addAlert: (alert: Alert) => void;
+  addAlert: (alert: Alert) => void;
 }
 
-export const AlertContext = createContext<AlertContextData>({} as AlertContextData);
+export const AlertContext = createContext<AlertContextData>(
+  {} as AlertContextData
+);
 
-export const AlertContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AlertContextProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [alerts, setAlerts] = useState<Alert[]>([]);
 
-    const [alerts, setAlerts] = useState<Alert[]>([]);
+  const addAlert = (alert: Alert) => {
+    const newAlert = { ...alert, index: Date.now() };
 
+    setAlerts((prev) => [...prev, newAlert]);
 
-    const addAlert = (alert: Alert) => {
-        const newAlert = { ...alert, index: (new Date()).getTime() };
-        setAlerts(prev => [...prev, newAlert]);
-        const timer = setTimeout(() => {
-            setAlerts(prev => prev.filter(a => a.index !== newAlert.index));
-        }, 3000);
-        return () => clearTimeout(timer);
-    }
+    setTimeout(() => {
+      setAlerts((prev) =>
+        prev.filter((a) => a.index !== newAlert.index)
+      );
+    }, 3000);
+  };
 
+  return (
+    <AlertContext.Provider value={{ addAlert }}>
+      <div className="fixed top-5 right-5 z-50 flex flex-col gap-3 w-[320px]">
 
-    const successClass = 'bg-secondary text-white border-primary';
-    const errorClass = 'bg-cancel-desc text-white border-cancel';
+        <AnimatePresence>
+          {alerts.map((alert) => (
+            <motion.div
+              key={alert.index}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 40 }}
+              transition={{ duration: 0.25 }}
+              className={`rounded-xl border p-4 shadow-lg backdrop-blur-sm
+                ${
+                  alert.type === "success"
+                    ? "bg-secondary text-secondary-foreground border-border"
+                    : "bg-destructive text-destructive-foreground border-border"
+                }`}
+            >
+              <p className="text-sm font-medium">
+                {alert.message}
+              </p>
+            </motion.div>
+          ))}
+        </AnimatePresence>
 
-    return (
-        <AlertContext.Provider value={{ addAlert }}>
-            <div className={`fixed z-10 right-3 bg-transparent ${alerts.length > 0 ? 'top-3' : 'top-[-100px]'} transition-all duration-300 flex flex-col gap-2`}>
-                {alerts.map((alert, index) => (
-                    <div key={index} className={` ${alert && alert.type === 'success' ? successClass : errorClass}  p-4 rounded border border-l-4 min-w-[300px] transition-all duration-300`}>
-                        {alert && alert.message}
-                    </div>
-                ))}
-            </div>
-            {children}
-        </AlertContext.Provider>
-    );
+      </div>
+
+      {children}
+    </AlertContext.Provider>
+  );
 };
-

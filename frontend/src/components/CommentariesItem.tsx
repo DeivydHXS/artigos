@@ -4,44 +4,69 @@ import { TfiPencilAlt, TfiTrash } from "react-icons/tfi";
 import { useCallback } from "react";
 import { useApi } from "../hooks/useApi";
 import UserImageName from "./UserImageName";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 interface CommentariesItemProps {
-    commentary: CommentaryInterface;
-    refresh: () => Promise<void>;
+  commentary: CommentaryInterface;
+  refresh: () => Promise<void>;
 }
 
-const CommentariesItem: React.FC<CommentariesItemProps> = ({ commentary, refresh }) => {
-    const { del } = useApi();
+const CommentariesItem: React.FC<CommentariesItemProps> = ({
+  commentary,
+  refresh,
+}) => {
+  const { del } = useApi();
 
-    const handleDelete = useCallback(async () => {
-        await del(`/commentary/${commentary.id}`);
-        refresh();
-    }, []);
+  const handleDelete = useCallback(async () => {
+    await del(`/commentary/${commentary.id}`);
+    refresh();
+  }, [commentary.id, del, refresh]);
 
-    const handleEdit = useCallback(async () => {
-        refresh();
-    }, []);
+  const handleEdit = useCallback(async () => {
+    refresh();
+  }, [refresh]);
 
-    return (
-        <div className="p-4 rounded-md border-b-1 border-b-neutral bg-white mb-4">
-            <div className="flex items-center justify-between gap-4">
-                <UserImageName user={commentary.author} />
-                {commentary.is_author ?
-                    <div className="flex gap-1">
-                        <button data-cy={`button-edit-commentary-${commentary.id}`} onClick={handleEdit} className="flex gap-1 items-center p-2 text-white text-sm bg-edit hover:bg-edit-desc rounded-md">
-                            <TfiPencilAlt scale={0.5} />
-                        </button>
-                        <button data-cy={`button-delete-commentary-${commentary.id}`} onClick={handleDelete} className="flex gap-1 items-center p-2 text-white text-sm bg-cancel hover:bg-cancel-desc rounded-md">
-                            <TfiTrash scale={0.5} />
-                        </button>
-                    </div>
-                    : ''}
-            </div>
-            <p className="p-1 mt-2">
-                {commentary.message}
-            </p>
-        </div>
-    );
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
+      className="p-5 rounded-xl border border-border bg-card hover:border-primary transition-all duration-300"
+    >
+      <div className="flex items-start justify-between gap-4">
+        <UserImageName user={commentary.author} />
+
+        {commentary.is_author && (
+          <div className="flex gap-2">
+            <Button
+              size="icon"
+              variant="secondary"
+              data-cy={`button-edit-commentary-${commentary.id}`}
+              onClick={handleEdit}
+              className="rounded-md"
+            >
+              <TfiPencilAlt />
+            </Button>
+
+            <Button
+              size="icon"
+              variant="destructive"
+              data-cy={`button-delete-commentary-${commentary.id}`}
+              onClick={handleDelete}
+              className="rounded-md"
+            >
+              <TfiTrash />
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+        {commentary.message}
+      </p>
+    </motion.div>
+  );
 };
 
 export default CommentariesItem;

@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useLoadContext } from '../hooks/useContext';
-import { AlertContext } from '../contexts/AlertContext';
-import CustomForm from '../components/CustomForm';
-import { TfiAngleLeft } from 'react-icons/tfi';
+import React, { useCallback } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useLoadContext } from "../hooks/useContext";
+import { AlertContext } from "../contexts/AlertContext";
+import CustomForm from "../components/CustomForm";
+import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 
 const Register: React.FC = () => {
   const { addAlert } = useLoadContext(AlertContext);
@@ -12,58 +13,78 @@ const Register: React.FC = () => {
   const registerFormCallback = useCallback(async (response: any) => {
     if (response.isStatusValid) {
       addAlert({
-        type: 'success',
-        message: 'Conta criada com sucesso! Confirme sua conta pelo email.'
+        type: "success",
+        message:
+          "Conta criada com sucesso! Confirme sua conta pelo email.",
       });
-      navigate('/login');
-      return
+      navigate("/login");
+      return;
     }
-
   }, []);
 
   return (
-    <div className='bg-white p-8 rounded-md border-b-1 border-b-neutral flex flex-col gap-2 min-w-[400px] max-w-[500px]'>
-      <div className='flex items-center mb-4'>
-        <NavLink to='/login' className='absolute'>
-          <TfiAngleLeft />
-        </NavLink>
-        <div className="w-full flex justify-center">
-          <h1 className='text-center text-2xl font-bold'>Registrar</h1>
-        </div>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-lg bg-card border border-border rounded-xl p-8 shadow-lg shadow-primary/10 flex flex-col gap-6 relative"
+      >
 
-      <CustomForm dataCy='register-button' route='/register' method='POST' callback={registerFormCallback} buttonValue='Registrar' fields={[
-        {
-          label: 'Nome',
-          type: 'text',
-          name: 'name',
-          placeholder: 'Digite seu nome'
-        },
-        {
-          label: 'Email',
-          type: 'email',
-          name: 'email',
-          placeholder: 'Digite seu email'
-        },
-        {
-          label: 'Senha',
-          type: 'password',
-          name: 'password',
-          placeholder: 'Digite sua senha'
-        },
-        {
-          label: 'Confirmar senha',
-          type: 'password',
-          name: 'password_confirmation',
-          placeholder: 'Digite sua senha novamente'
-        },
-        {
-          label: 'Data de nascimento',
-          type: 'date',
-          name: 'birthday'
-        },
-      ]} />
-    </div >
+        {/* Header */}
+        <div className="flex items-center justify-center relative">
+          <NavLink
+            to="/login"
+            className="absolute left-0 text-muted-foreground hover:text-primary transition"
+          >
+            <ArrowLeft size={18} />
+          </NavLink>
+
+          <h1 className="text-2xl font-bold tracking-tight">
+            Criar <span className="text-primary">Conta</span>
+          </h1>
+        </div>
+
+        {/* Form */}
+        <CustomForm
+          dataCy="register-button"
+          route="/register"
+          method="POST"
+          callback={registerFormCallback}
+          buttonValue="Registrar"
+          fields={[
+            {
+              label: "Nome",
+              type: "text",
+              name: "name",
+              placeholder: "Digite seu nome",
+            },
+            {
+              label: "Email",
+              type: "email",
+              name: "email",
+              placeholder: "Digite seu email",
+            },
+            {
+              label: "Senha",
+              type: "password",
+              name: "password",
+              placeholder: "Digite sua senha",
+            },
+            {
+              label: "Confirmar senha",
+              type: "password",
+              name: "password_confirmation",
+              placeholder: "Digite sua senha novamente",
+            },
+            {
+              label: "Data de nascimento",
+              type: "date",
+              name: "birthday",
+            },
+          ]}
+        />
+
+      </motion.div>
   );
 };
 

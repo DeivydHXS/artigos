@@ -12,7 +12,7 @@ interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
     className?: string
     fields: CustomFieldProps[]
     route: string
-    method: 'POST' | 'PUT'
+    method: "POST" | "PUT"
     dataCy: string;
     callback: (response: any) => void
 }
@@ -29,12 +29,12 @@ const CustomForm: React.FC<FormProps> = ({ buttonValue, className, fields, route
         const data = new FormData(formEvent.currentTarget)
 
         setLoad(true);
-        const response = method == 'POST'
+        const response = method == "POST"
             ? await post(route, data)
             : await put(route, data)
 
         addAlert({
-            type: response.isStatusValid ? 'success' : 'error',
+            type: response.isStatusValid ? "success" : "error",
             message: response.message
         });
         setLoad(false);
@@ -51,25 +51,25 @@ const CustomForm: React.FC<FormProps> = ({ buttonValue, className, fields, route
         <>
             {load ?
                 <Loading />
-                : ''
+                : ""
             }
-            <form onSubmit={submitForm} className={className ? className : 'flex flex-col justify-center items-baseline gap-4'} hidden={load}>
+            <form onSubmit={submitForm} className={className ? className : "flex flex-col justify-center items-baseline gap-4"} hidden={load}>
                 {fields.map((field) => {
                     const { label, name, type, ...rest } = field
-                    var error: string | string[] = ''
+                    var error: string | string[] = ""
                     if (errors) {
                         if (errors[name]) {
-                            if (typeof errors[name] == 'string')
+                            if (typeof errors[name] == "string")
                                 error = errors[name]
                             else
                                 error = errors[name][0]
                         }
                     }
                     return (
-                        <CustomField label={label} name={name} type={type ? type : 'text'} error={error} {...rest} />
+                        <CustomField label={label} name={name} type={type ? type : "text"} error={error} {...rest} />
                     )
                 })}
-                <input data-cy={dataCy} type="submit" disabled={load} value={buttonValue ? buttonValue : 'Confirmar'} className='w-full bg-primary rounded-md p-2 hover:bg-secondary text-white cursor-pointer' />
+                <input data-cy={dataCy} type="submit" disabled={load} value={buttonValue ? buttonValue : "Confirmar"} className="w-full bg-primary rounded-md p-2 hover:bg-secondary text-white cursor-pointer" />
             </form>
         </>
     );

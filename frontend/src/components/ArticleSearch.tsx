@@ -7,10 +7,10 @@ export const ArticleSearch: React.FC<Props> = ({ search }) => {
     const { get } = useApi();
     const [categories, setCategories] = useState<CategoryInterface[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<CategoryInterface[]>([]);
-    const [term, setTerm] = useState<string>('');
+    const [term, setTerm] = useState<string>("");
 
     const getCategories = useCallback(async () => {
-        const result = await get<CategoryInterface[]>('/categories');
+        const result = await get<CategoryInterface[]>("/categories");
         if (result.isStatusValid) {
             setCategories(result.data || []);
         }
@@ -27,7 +27,7 @@ export const ArticleSearch: React.FC<Props> = ({ search }) => {
 
     const handleClear = useCallback(() => {
         setSelectedCategories([]);
-        setTerm('');
+        setTerm("");
         search?.();
     }, [search]);
 
@@ -41,14 +41,14 @@ export const ArticleSearch: React.FC<Props> = ({ search }) => {
         <div>
             <div className="flex items-center gap-2 w-full h-[40px]">
                 <input
-                    data-cy='search-bar'
+                    data-cy="search-bar"
                     type="text"
                     value={term}
                     onChange={(e) => setTerm(e.target.value)}
                     placeholder="Pesquisar..."
                     className="border border-neutral rounded-md focus:outline-none focus:border-primary flex-10 h-full px-2" />
                 <select
-                    data-cy='select-category'
+                    data-cy="select-category"
                     onChange={(e) => {
                         const categoryId = parseInt(e.target.value);
                         if (categoryId) {
@@ -67,14 +67,14 @@ export const ArticleSearch: React.FC<Props> = ({ search }) => {
                     ))}
                 </select>
                 <input
-                    data-cy='button-search'
+                    data-cy="button-search"
                     className="text-center bg-primary text-white rounded-md p-2 hover:bg-secondary cursor-pointer w-[150px] flex-2 h-full"
                     type="button"
                     value="Buscar"
                     onClick={handleSearch}
                 />
                 <input
-                    data-cy='button-clear'
+                    data-cy="button-clear"
                     className="text-center bg-cancel text-white rounded-md p-2 hover:bg-cancel-desc cursor-pointer w-[150px] flex-2 h-full"
                     type="button"
                     value="Limpar"

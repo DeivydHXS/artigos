@@ -17,7 +17,7 @@ const ButtonIcon: React.FC<buttonIconInterface> = ({ icon, handle, count, dataCy
             data-cy={dataCy}>
 
             {icon}
-            {count ? <p>{count}</p> : ''}
+            {count ? <p>{count}</p> : ""}
         </button>
     );
 }

@@ -40,10 +40,10 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
 
     function formatDate(date: string): string {
         const data = new Date(date);
-        return data.toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
+        return data.toLocaleDateString("pt-BR", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
         });
     }
 
@@ -52,21 +52,21 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
             await del(`/articles/${article.id}/favorite`);
             setArticle(prev => { return { ...prev, is_favorite: false } });
             addAlert({
-                type: 'error',
-                message: 'Artigo removido dos favoritos.'
+                type: "error",
+                message: "Artigo removido dos favoritos."
             });
         }
         else {
             await post(`/articles/${article.id}/favorite`, {});
             setArticle(prev => { return { ...prev, is_favorite: true } });
             addAlert({
-                type: 'success',
-                message: 'Artigo adicionado aos favoritos.'
+                type: "success",
+                message: "Artigo adicionado aos favoritos."
             });
         }
-    }, []);
+    }, [article, addAlert, post, del]);
 
-    const handleLike = useCallback(async (like: LikeInterface | null, reaction: string = 'L') => {
+    const handleLike = useCallback(async (like: LikeInterface | null, reaction: string = "L") => {
         setCanLike(true);
         if (like != null && reaction == like.reaction) {
             await del(`/articles/${article.id}/like`);
@@ -105,31 +105,31 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
     const buttons: Array<{ dataCy: string, icon: any, handle: () => void }> = [
         {
             dataCy: `button-heart-article-${article.id}`,
-            icon: < PiHeartFill {...iconProps} color='oklch(52.5% 0.223 3.958)' />,
-            handle: () => handleLike(article.user_like, 'H')
+            icon: < PiHeartFill {...iconProps} color="oklch(52.5% 0.223 3.958)" />,
+            handle: () => handleLike(article.user_like, "H")
         },
         {
             dataCy: `button-like-article-${article.id}`,
-            icon: < PiThumbsUpFill {...iconProps} color='oklch(52% 0.105 223.128)' />,
-            handle: () => handleLike(article.user_like, 'L')
+            icon: < PiThumbsUpFill {...iconProps} color="oklch(52% 0.105 223.128)" />,
+            handle: () => handleLike(article.user_like, "L")
         },
         {
             dataCy: `button-fire-article-${article.id}`,
-            icon: < PiFireFill {...iconProps} color='oklch(50.5% 0.213 27.518)' />,
-            handle: () => handleLike(article.user_like, 'F')
+            icon: < PiFireFill {...iconProps} color="oklch(50.5% 0.213 27.518)" />,
+            handle: () => handleLike(article.user_like, "F")
         },
         {
             dataCy: `button-clapping-article-${article.id}`,
-            icon: < PiHandsClappingFill  {...iconProps} color='oklch(55.4% 0.135 66.442)' />,
-            handle: () => handleLike(article.user_like, 'C')
+            icon: < PiHandsClappingFill  {...iconProps} color="oklch(55.4% 0.135 66.442)" />,
+            handle: () => handleLike(article.user_like, "C")
         },
     ]
 
     return (
-        <div className='rounded-md border-b-1 border-b-neutral bg-white flex flex-col'>
+        <div className="bg-card border border-border rounded-xl overflow-hidden flex flex-col">
             <div className="w-full h-[180px] rounded-t-md overflow-clip">
-                <NavLink data-cy={`link-image-article-${article.id}`} to={`/articles/${article.id}`} className="text-2xl font-bold text-neutral-800">
-                    <img className="h-full w-full" src={article.thumbnail_url ?
+                <NavLink data-cy={`link-image-article-${article.id}`} to={`/articles/${article.id}`} className="text-2xl font-bold text-foreground">
+                    <img className="h-full w-full object-cover" src={article.thumbnail_url ?
                         article.thumbnail_url :
                         "https://fillthis.io/i/600x400?text=Sem+imagem&font=roboto"} />
                 </NavLink>
@@ -138,8 +138,8 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
             <div className="p-8 h-full flex flex-col justify-between">
                 <div className="flex flex-col items-baseline justify-between mb-2 gap-2">
                     <div className="flex justify-between items-baseline gap-2 w-full">
-                        <NavLink to={`/articles/${article.id}`} className="text-xl font-bold text-neutral-800 whitespace-pre-wrap" data-cy={`link-title-article-${article.id}`}>
-                            {article.title.slice(0, 18) + (article.title.length > 18 ? '...' : '')}
+                        <NavLink to={`/articles/${article.id}`} className="text-lg font-semibold text-foreground hover:text-primary transition-colors" data-cy={`link-title-article-${article.id}`}>
+                            {article.title.slice(0, 18) + (article.title.length > 18 ? "..." : "")}
                         </NavLink>
                         <ButtonIcon dataCy={`button-favorite-article-${article.id}`} icon={article.is_favorite ? <RxBookmarkFilled {...iconProps} color="oklch(28.3% 0.141 291.089)" /> : <RxBookmark {...iconProps} color="oklch(38% 0.189 293.745)" />}
                             handle={() => handleFavorite(article.is_favorite)}
@@ -151,7 +151,7 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
                     <UserImageName user={article.author} />
                     <div className="flex items-center justify-baseline gap-4">
                         <div>
-                            <p className="text-sm">{formatDate(article.created_at)}</p>
+                            <p className="text-sm text-muted-foreground">{formatDate(article.created_at)}</p>
                         </div>
 
                         <div>
@@ -171,14 +171,14 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
                                             disabled={canLike}
                                             dataCy={`button-default-like-article-${article.id}`}
                                             icon={<PiThumbsUp {...iconProps} />}
-                                            handle={() => handleLike(article.user_like, 'L')}
+                                            handle={() => handleLike(article.user_like, "L")}
                                         />
                                     }
                                     <p>{article.count_likes}</p>
                                 </div>
                                 {
                                     openReactionModal ?
-                                        <div className="-top-8 absolute p-2 bg-white flex gap-4">
+                                        <div className="absolute -top-10 left-0 bg-card border border-border rounded-full px-3 py-2 flex gap-3 shadow-md">
                                             {buttons.map(element => {
                                                 return <ButtonIcon
                                                     disabled={canLike}
@@ -187,7 +187,7 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
                                                     handle={element.handle}
                                                 />
                                             })}
-                                        </div> : ''
+                                        </div> : ""
                                 }
                             </div>
                         </div>
@@ -205,7 +205,7 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
             {
                 props.self &&
                 <div className="w-full flex items-center justify-center gap-2 my-4">
-                    <NavLink to={`/write/${article.id}`} className='bg-edit rounded-md p-2 hover:bg-edit-desc text-white font-semibold w-[45%]'>
+                    <NavLink to={`/write/${article.id}`} className="bg-secondary rounded-md p-2 hover:bg-secondary-foreground text-white font-semibold w-[45%]">
                         <div className="flex items-center justify-between gap-2">
                             <p>Editar</p>
                             <div>
@@ -213,7 +213,7 @@ const ArticlesItem: React.FC<ArticlesItemProps> = (props) => {
                             </div>
                         </div>
                     </NavLink>
-                    <button onClick={() => handleDelete(article.id)} className='bg-cancel rounded-md p-2 hover:bg-cancel-desc cursor-pointer text-white font-semibold w-[45%]'>
+                    <button onClick={() => handleDelete(article.id)} className="bg-destructive rounded-md p-2 hover:bg-destructive-foreground cursor-pointer text-white font-semibold w-[45%]">
                         <div className="flex items-center justify-between gap-2">
                             <p>Excluir</p>
                             <div>

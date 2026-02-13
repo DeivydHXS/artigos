@@ -16,7 +16,7 @@ export const useApi = () => {
     return err.response
       ? err.response.data
       : {
-        message: 'Ocorreu um erro inesperado, tente novamente mais tarde.',
+        message: "Ocorreu um erro inesperado, tente novamente mais tarde.",
         status: false,
       };
   }

@@ -7,7 +7,7 @@ interface FormProps extends PropsWithChildren {
     className?: string;
 }
 
-const Form: React.FC<FormProps> = ({ handleSubmit, children, buttonValue, className = '' }) => {
+const Form: React.FC<FormProps> = ({ handleSubmit, children, buttonValue, className = "" }) => {
     
     const [load, setLoad] = useState<boolean>(false);
 
@@ -20,10 +20,10 @@ const Form: React.FC<FormProps> = ({ handleSubmit, children, buttonValue, classN
     }
 
     return (
-        <form onSubmit={submitForm} className={className ? className : 'flex flex-col justify-center items-baseline gap-4'}>
+        <form onSubmit={submitForm} className={className ? className : "flex flex-col justify-center items-baseline gap-4"}>
             {children}
-            { buttonValue ? <input type="submit" disabled={load} value={buttonValue} className='w-full bg-primary rounded-md p-2 hover:bg-secondary text-white' />
-            : ''}
+            { buttonValue ? <input type="submit" disabled={load} value={buttonValue} className="w-full bg-primary rounded-md p-2 hover:bg-secondary text-white" />
+            : ""}
         </form>
     );
 };

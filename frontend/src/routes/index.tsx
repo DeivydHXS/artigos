@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from "react";
 import { Route, Routes as WebRoutes } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
+import AppLayout from "../layouts/AppLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import NotFound from "../pages/NotFound";
+import Home from "../pages/Home";
 
 const Feed = lazy(() => import("../pages/Feed"));
 const ShowArticle = lazy(() => import("../pages/ShowArticle"));
@@ -21,7 +22,9 @@ const Routes: React.FC = () => {
     return (
         <Suspense fallback={<div>Carregando...</div>}>
             <WebRoutes>
-                <Route element={<MainLayout />}>
+                <Route index path="/" element={<Home />} />
+
+                <Route element={<AppLayout />}>
                     <Route index path="feed" element={<Feed />} />
                     <Route path="articles" element={<Articles />} />
                     <Route path="favorites" element={<Favorites />} />

@@ -1,11 +1,11 @@
-import axios from 'axios'
-import { LOCAL_STORAGE_KEYS } from '../constants/localstorage';
-import type { TokenInterface } from '../interfaces/UserInterface';
+import axios from "axios"
+import { LOCAL_STORAGE_KEYS } from "../constants/localstorage";
+import type { TokenInterface } from "../interfaces/UserInterface";
 
 
 const api = axios.create({
     // baseURL: process.env.API_URL
-    baseURL: 'http://127.0.0.1:8000/api/'
+    baseURL: "http://127.0.0.1:8000/api/"
 })
 
 api.interceptors.request.use(config => {

@@ -12,7 +12,7 @@ interface FormFieldProps extends PropsWithChildren {
     placeholder?: string;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ label, name, type, defaultValue = '' , error, readOnly = false, className = '', placeholder = ''}) => {
+const FormField: React.FC<FormFieldProps> = ({ label, name, type, defaultValue = "" , error, readOnly = false, className = "", placeholder = ""}) => {
 
     const [value, setValue] = useState<string | undefined>(defaultValue);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(error ? error[0] : undefined);
@@ -35,7 +35,7 @@ const FormField: React.FC<FormFieldProps> = ({ label, name, type, defaultValue =
     }, [error]);
     
     return (
-        <div className='flex flex-col gap-0.5 w-full'>
+        <div className="flex flex-col gap-0.5 w-full">
             <label htmlFor={name}>{label}</label>
             <input
                 type={type}
@@ -45,8 +45,8 @@ const FormField: React.FC<FormFieldProps> = ({ label, name, type, defaultValue =
                 value={value}
                 onChange={handleChange}
                 placeholder={placeholder}
-                className={className ? className : `${errorMessage ? 'border-red-600' : 'border-neutral-400'} border rounded-md pl-2 py-1`}/>
-            <small className='text-red-600 text-wrap w-full'>{errorMessage}</small>
+                className={className ? className : `${errorMessage ? "border-red-600" : "border-neutral-400"} border rounded-md pl-2 py-1`}/>
+            <small className="text-red-600 text-wrap w-full">{errorMessage}</small>
         </div>
     );
 };
